@@ -15,6 +15,7 @@ public class MyFirstSeleniumScript {
         //open some website
         driver.get("http://google.com");
         Thread.sleep(3000);
+        System.out.println();
 
     }
 }
