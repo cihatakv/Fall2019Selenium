@@ -1,4 +1,4 @@
-package com.automation.utulities;
+package com.automation.utilities;
 
 public class BrowserUtils {
 

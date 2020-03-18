@@ -1,7 +1,7 @@
 package com.automation.tests.day6;
 
-import com.automation.utulities.BrowserUtils;
-import com.automation.utulities.DriverFactory;
+import com.automation.utilities.BrowserUtils;
+import com.automation.utilities.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;

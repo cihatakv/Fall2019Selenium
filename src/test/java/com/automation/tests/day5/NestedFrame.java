@@ -1,6 +1,6 @@
 package com.automation.tests.day5;
 
-import com.automation.utulities.DriverFactory;
+import com.automation.utilities.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
