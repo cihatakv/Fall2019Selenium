@@ -1,4 +1,4 @@
-package com.automation.tests.day9practice;
+package com.automation.tests.practice;
 
 import com.automation.utilities.BrowserUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
