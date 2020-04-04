@@ -1,4 +1,6 @@
-.idea/
+.idea
 *.iml
 target
+.DS_Store
+test-output
 out
