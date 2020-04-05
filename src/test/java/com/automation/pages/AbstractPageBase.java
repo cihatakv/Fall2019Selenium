@@ -1,5 +1,4 @@
 package com.automation.pages;
-
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.Driver;
 import org.openqa.selenium.By;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 /**
  * This class will be extended by page classes
  * Ant common webelements/locators can be stored here
@@ -20,8 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public abstract class AbstractPageBase {
     protected WebDriver driver = Driver.getDriver();
-    protected WebDriverWait wait = new WebDriverWait(driver, 15);
-
+    protected WebDriverWait wait = new WebDriverWait(driver, 25);
     @FindBy(css = "#user-menu > a")
     protected WebElement currentUser;
 
@@ -35,7 +32,6 @@ public abstract class AbstractPageBase {
         return currentUser.getText().trim();
     }
 
-
     /**
      * Method for vytrack navigation. Provide tab name and module name to navigate
      *
@@ -45,19 +41,14 @@ public abstract class AbstractPageBase {
     public void navigateTo(String tabName, String moduleName) {
         String tabNameXpath = "//span[@class='title title-level-1' and contains(text(),'" + tabName + "')]";
         String moduleXpath = "//span[@class='title title-level-2' and text()='" + moduleName + "']";
-
         WebElement tabElement = driver.findElement(By.xpath(tabNameXpath));
         WebElement moduleElement = driver.findElement(By.xpath(moduleXpath));
-
         Actions actions = new Actions(driver);
-
         BrowserUtils.wait(4);
-
         actions.moveToElement(tabElement).
                 pause(2000).
                 click(moduleElement).
                 build().perform();
-
         //increase this wait rime if still failing
         BrowserUtils.wait(4);
     }
