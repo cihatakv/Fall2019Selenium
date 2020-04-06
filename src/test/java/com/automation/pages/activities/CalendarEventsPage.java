@@ -58,6 +58,7 @@ public class CalendarEventsPage extends AbstractPageBase {
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(descriptionFrame));
         descriptionTextArea.sendKeys(description);
         driver.switchTo().defaultContent();//exit from the frame
+        BrowserUtils.wait(6);
     }
 
     public void clickOnSaveAndClose() {
