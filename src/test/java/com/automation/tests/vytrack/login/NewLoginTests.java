@@ -4,7 +4,9 @@ import com.automation.pages.LoginPage;
 import com.automation.tests.vytrack.AbstractTestBase;
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.Driver;
+import com.automation.utilities.ExcelUtil;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -61,5 +63,53 @@ public class NewLoginTests extends AbstractTestBase {
                 {"salesmanager110", "UserUser123"},
                 {"user16", "UserUser123"},
         };
+    }
+
+    @Test(dataProvider = "credentialsFromExcel")
+    public void loginTestWithExcel(String execute, String firstname, String lastname, String username1, String password1, String result) {
+        test = report.createTest("Login test for username1 :: " + username1);
+        if (execute.equals("y")) {
+            LoginPage loginPage = new LoginPage();
+            loginPage.login(username1, password1);
+            test.info("Login as " + username1);//log some steps
+            test.info(String.format("First name: %s, Last name: %s, Username: %s", firstname, lastname, username1));
+            test.pass("Successfully logged in as " + username1);
+        } else {
+            test.skip("Test was skipped for user: " + username1);
+            //to skip some test in testng
+            throw new SkipException("Test was skipped for user: " + username1);
+        }
+    }
+
+    @DataProvider
+    public Object[][] credentialsFromExcel() {
+        String path = "VytrackTestUsers.xlsx";
+        String spreadSheet = "QA3-short";
+        ExcelUtil excelUtil = new ExcelUtil(path, spreadSheet);
+        //execute	username	password	firstname	lastname	result
+        return excelUtil.getDataArray();
+    }
+
+    //Object[][] or Object[] or Iterator<Object[]>
+    //Object[] - 1 column with a data
+    //Object[][] 2+
+
+    @Test
+    public void test() {
+        String path = "VytrackTestUsers.xlsx";
+        String spreadSheet = "QA3-short";
+        ExcelUtil excelUtil = new ExcelUtil(path, spreadSheet);
+
+        Object[][] array = excelUtil.getDataArray();
+
+        System.out.println(array[0][0]);
+        for (Object[] objects : array) {
+            for (Object object : objects) {
+                System.out.printf("%-17s", object);
+            }
+            System.out.println();
+        }
+
+
     }
 }
