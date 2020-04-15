@@ -3,6 +3,7 @@ package com.automation.tests.vytrack;
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.ConfigurationReader;
 import com.automation.utilities.Driver;
+import com.automation.utilities.ExcelUtil;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
@@ -22,13 +23,19 @@ public abstract class AbstractTestBase {
     protected ExtentHtmlReporter htmlReporter;
     protected ExtentTest test;
 
+    protected static int row = 1;
+    protected ExcelUtil excelUtil;
 
+    //@Optional - to make parameter optional
+    //if you don't specify it, testng will require to specify this parameter for every test, in xml runner
     @BeforeTest
     @Parameters("reportName")
     public void setupTest(@Optional String reportName) {
         System.out.println("Report name: " + reportName);
         reportName = reportName == null ? "report.html" : reportName + ".html";
+
         report = new ExtentReports();
+
         String reportPath = "";
         //location of report file
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
@@ -50,7 +57,7 @@ public abstract class AbstractTestBase {
 
     @BeforeMethod
     public void setup() {
-        String URL = ConfigurationReader.getProperty("qa1");
+        String URL = ConfigurationReader.getProperty("qa3");
         Driver.getDriver().get(URL);
         Driver.getDriver().manage().window().maximize();
         wait = new WebDriverWait(Driver.getDriver(), 15);
@@ -65,12 +72,17 @@ public abstract class AbstractTestBase {
         if (iTestResult.getStatus() == ITestResult.FAILURE) {
             //screenshot will have a name of the test
             String screenshotPath = BrowserUtils.getScreenshot(iTestResult.getName());
-            // test.addScreenCaptureFromPath(screenshotPath);//attach screenshot
             test.fail(iTestResult.getName());//attach test name that failed
+            BrowserUtils.wait(2);
             test.addScreenCaptureFromPath(screenshotPath, "Failed");//attach screenshot
             test.fail(iTestResult.getThrowable());//attach console output
+            //if excelUtil object was created
+            //set value if result column to failed
+            if (excelUtil != null) {
+                excelUtil.setCellData("FAILED", "result", row++);
+            }
         }
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
         Driver.closeDriver();
     }
 }
