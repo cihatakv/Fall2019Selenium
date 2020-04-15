@@ -66,18 +66,19 @@ public class NewLoginTests extends AbstractTestBase {
     }
 
     @Test(dataProvider = "credentialsFromExcel")
-    public void loginTestWithExcel(String execute, String firstname, String lastname, String username1, String password1, String result) {
-        test = report.createTest("Login test for username1 :: " + username1);
+    public void loginTestWithExcel(String execute, String username, String password, String firstname, String lastname, String result) {
+        test = report.createTest("Login test for username :: " + username);
         if (execute.equals("y")) {
             LoginPage loginPage = new LoginPage();
-            loginPage.login(username1, password1);
-            test.info("Login as " + username1);//log some steps
-            test.info(String.format("First name: %s, Last name: %s, Username: %s", firstname, lastname, username1));
-            test.pass("Successfully logged in as " + username1);
+            loginPage.login(username, password);
+            test.info("Login as " + username);//log some steps
+            test.info(String.format("First name: %s, Last name: %s, Username: %s", firstname, lastname, username));
+            Assert.assertEquals(Driver.getDriver().getTitle(), "Dashboard");
+            test.pass("Successfully logged in as " + username);
         } else {
-            test.skip("Test was skipped for user: " + username1);
+            test.skip("Test was skipped for user: " + username);
             //to skip some test in testng
-            throw new SkipException("Test was skipped for user: " + username1);
+            throw new SkipException("Test was skipped for user: " + username);
         }
     }
 
